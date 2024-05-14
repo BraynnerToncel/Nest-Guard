@@ -8,12 +8,12 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: '',
-      host: '',
-      port: ,
-      username: '',
-      password: '',
-      database: '',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '123456789',
+      database: 'test',
       autoLoadEntities: true,
       synchronize: true,
     }),

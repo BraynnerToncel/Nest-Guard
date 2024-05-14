@@ -1,11 +1,11 @@
-import { jwtConstants } from './../auth/constants/jwt.constant';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './../constants/jwt.constant';
 import {
   CanActivate,
   ExecutionContext,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
 @Injectable()
@@ -14,7 +14,9 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+    console.log(request.headers.authoruization);
     const token = this.extractTokenFromHeader(request);
+
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -30,9 +32,9 @@ export class AuthGuard implements CanActivate {
     }
 
     console.log(request.headers.authorization);
+
     return true;
   }
-
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type == 'Bearer' ? token : undefined;
